@@ -58,7 +58,7 @@ export const purchasePlan = async (req, res) => {
   try {
     const { planId } = req.body;
     const userId = req.user._id;
-    const plan = plans.find((plan) => plan._id === planId);
+    const plan = plans.find(plan => plan._id === planId);
 
     if (!plan) {
       return res.json({ succes: false, message: "Invalid Plan" });
@@ -70,17 +70,16 @@ export const purchasePlan = async (req, res) => {
       planId: plan._id,
       amount: plan.price,
       credits: plan.credits,
-      isPaid: false,
+      isPaid: false
     });
 
     const {origin} = req.headers;
-
 
     const session = await stripe.checkout.sessions.create({
        line_items: [
         {
           price_data : {
-            currency: 'usd',
+            currency: "usd",
             unit_amount: plan.price * 100,
             product_data: {
             name: plan.name
